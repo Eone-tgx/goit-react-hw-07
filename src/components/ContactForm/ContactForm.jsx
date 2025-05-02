@@ -3,15 +3,14 @@ import { useId } from "react";
 import css from "./ContactForm.module.css";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
-import { addContact } from "../../redux/contactsSlice";
-import { nanoid } from "nanoid";
+import { addContact } from "../../redux/contactsOps";
 
 const formValidation = Yup.object().shape({
   name: Yup.string()
     .min(3, "Ім'я закоротке")
     .max(50, "Ім'я задовге")
     .required("Поле обов'язкове до заповнення"),
-  number: Yup.string()
+  phone: Yup.string()
     .min(7, "Номер закороткий")
     .max(10, "Номер задовгий")
     .required("Поле обов'язкове до заповнення"),
@@ -19,7 +18,7 @@ const formValidation = Yup.object().shape({
 
 const initialValues = {
   name: "",
-  number: "",
+  phone: "",
 };
 
 const ContactForm = () => {
@@ -29,9 +28,8 @@ const ContactForm = () => {
 
   const handleSubmit = (values, actions) => {
     const newContact = {
-      id: nanoid(),
       name: values.name,
-      number: values.number,
+      phone: values.phone,
     };
 
     dispatch(addContact(newContact));
@@ -58,10 +56,10 @@ const ContactForm = () => {
 
           <div className={css.labelWrapper}>
             <label htmlFor={numberId}>Number</label>
-            <Field type="phone" name="number" id={numberId} />
+            <Field type="phone" name="phone" id={numberId} />
             <ErrorMessage
               className={css.errorMessage}
-              name="number"
+              name="phone"
               component="span"
             />
           </div>
